@@ -1,0 +1,5 @@
+{
+  "Alert.General": "Игрок {Blue}{0}{Default} зашел на сервер {1}",
+  "Alert.Prime": "с {Lime}Прайм-статусом{Default}",
+  "Alert.NonPrime": "без {LightRed}Прайм-статуса{Default}"
+}

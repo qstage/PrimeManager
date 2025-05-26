@@ -1,0 +1,5 @@
+{
+  "Alert.General": "Player {Blue}{0}{Default} logged in to the server {1}",
+  "Alert.Prime": "with a {Lime}Prime-status{Default}",
+  "Alert.NonPrime": "without a {LightRed}Prime-status{Default}"
+}

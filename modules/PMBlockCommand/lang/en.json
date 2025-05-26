@@ -1,0 +1,3 @@
+{
+  "Chat.Alert": "You cannot execute this command because you do not have a {LightRed}Prime-status{Default}"
+}
