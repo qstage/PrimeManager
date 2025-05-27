@@ -9,7 +9,7 @@ namespace PMAlert;
 public class Plugin : BasePlugin
 {
     public override string ModuleName => "[PM] Alert";
-    public override string ModuleVersion => "1.0.0";
+    public override string ModuleVersion => "1.0.1";
     public override string ModuleAuthor => "xstage";
 
     public static PluginCapability<IPrimeManager> PmApi { get; } = new("PrimeManager");
@@ -27,9 +27,9 @@ public class Plugin : BasePlugin
         {
             if (target.IsBot) continue;
 
-            _api.AlertToChat(player,
-                Localizer.ForPlayer(player, "Alert.General", player.PlayerName,
-                hasPrime ? Localizer.ForPlayer(player, "Alert.Prime") : Localizer.ForPlayer(player, "Alert.NonPrime"))
+            _api.AlertToChat(target,
+                Localizer.ForPlayer(target, "Alert.General", player.PlayerName,
+                hasPrime ? Localizer.ForPlayer(target, "Alert.Prime") : Localizer.ForPlayer(target, "Alert.NonPrime"))
             );
         }
     }
