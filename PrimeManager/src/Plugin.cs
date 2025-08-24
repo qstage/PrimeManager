@@ -4,7 +4,6 @@ using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Capabilities;
 using CounterStrikeSharp.API.Core.Translations;
 using CounterStrikeSharp.API.Modules.Memory;
-using CounterStrikeSharp.API.Modules.Utils;
 using Microsoft.Extensions.Logging;
 using PrimeManager.API;
 
@@ -21,14 +20,16 @@ public struct CEconPersonaDataPublic
     public bool ElevatedState;
 }
 
-public class Plugin : BasePlugin, IPrimeManager
+public class Plugin : BasePlugin, IPluginConfig<PluginConfig>, IPrimeManager
 {
     public override string ModuleName => "PrimeManager";
-    public override string ModuleVersion => "1.0.0";
+    public override string ModuleVersion => "1.0.2";
     public override string ModuleAuthor => "xstage";
 
     public event PersonaDataRecived? PersonaDataRecivedEvent;
+
     public static PluginCapability<IPrimeManager> Api { get; } = new("PrimeManager");
+    public PluginConfig Config { get; set; } = new();
 
     private readonly PlayerState[] _players = new PlayerState[65];
     private static readonly int _nearestFieldOffset = Schema.GetSchemaOffset("CCSPlayerController_InventoryServices", "m_unEquippedPlayerSprayIDs");
@@ -37,7 +38,9 @@ public class Plugin : BasePlugin, IPrimeManager
     {
         if (_nearestFieldOffset == 0)
         {
-            throw new Exception("Not found offset `m_unEquippedPlayerSprayIDs`");
+            Logger.LogError("Not found offset `m_unEquippedPlayerSprayIDs`");
+
+            return;
         }
 
         Capabilities.RegisterPluginCapability(Api, () => this);
@@ -84,5 +87,25 @@ public class Plugin : BasePlugin, IPrimeManager
     {
         string fmtString = string.Format("{0} {1}", Localizer.ForPlayer(player, "Plugin.Tag"), string.Format(message, args));
         player.PrintToChat(fmtString);
+    }
+
+    public void OnConfigParsed(PluginConfig config)
+    {
+        if (config.Version < Config.Version)
+        {
+            Logger.LogError("Your plugin configuration version is outdated! (v. {old} -> v. {new})", config.Version, Config.Version);
+        }
+
+        Config = config;
+    }
+
+    public T? GetModuleSetting<T>(string key)
+    {
+        if (!Config.ModuleSettings.TryGetValue(key, out var value))
+        {
+            return default;
+        }
+
+        return (T?)Convert.ChangeType(value.ToString(), typeof(T));
     }
 }

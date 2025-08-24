@@ -2,6 +2,7 @@
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Capabilities;
 using CounterStrikeSharp.API.Core.Translations;
+using CounterStrikeSharp.API.Modules.Admin;
 using PrimeManager.API;
 
 namespace PMAlert;
@@ -9,7 +10,7 @@ namespace PMAlert;
 public class Plugin : BasePlugin
 {
     public override string ModuleName => "[PM] Alert";
-    public override string ModuleVersion => "1.0.1";
+    public override string ModuleVersion => "1.0.2";
     public override string ModuleAuthor => "xstage";
 
     public static PluginCapability<IPrimeManager> PmApi { get; } = new("PrimeManager");
@@ -23,9 +24,12 @@ public class Plugin : BasePlugin
 
     private void OnPersonaDataRecived(CCSPlayerController player, bool hasPrime)
     {
+        var flag = _api.GetModuleSetting<string>("flag_alert");
+
         foreach (var target in Utilities.GetPlayers())
         {
             if (target.IsBot) continue;
+            if (flag != null && !AdminManager.PlayerHasPermissions(target, flag)) continue;
 
             _api.AlertToChat(target,
                 Localizer.ForPlayer(target, "Alert.General", player.PlayerName,
