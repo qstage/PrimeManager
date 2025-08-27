@@ -12,9 +12,10 @@ Allows you to get information about the availability of Prime-status.
 {
   "ModuleSettings": {
     "tag_only_nonprime": true, // true - tag only for non-prime players / otherwise - false
+    "immunity_flag": "@css/generic", // remove this setting to disable
     "flag_alert": "@css/ban" // send alert for admins with `@css/ban` flag / remove this setting to send for everyone
   },
-  "ConfigVersion": 1
+  "ConfigVersion": 2
 }
 ```
 
