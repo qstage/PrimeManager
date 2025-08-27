@@ -3,6 +3,7 @@ using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Capabilities;
 using CounterStrikeSharp.API.Core.Translations;
+using CounterStrikeSharp.API.Modules.Extensions;
 using CounterStrikeSharp.API.Modules.Memory;
 using Microsoft.Extensions.Logging;
 using PrimeManager.API;
@@ -23,7 +24,7 @@ public struct CEconPersonaDataPublic
 public class Plugin : BasePlugin, IPluginConfig<PluginConfig>, IPrimeManager
 {
     public override string ModuleName => "PrimeManager";
-    public override string ModuleVersion => "1.0.2";
+    public override string ModuleVersion => "1.0.3";
     public override string ModuleAuthor => "xstage";
 
     public event PersonaDataRecived? PersonaDataRecivedEvent;
@@ -93,7 +94,11 @@ public class Plugin : BasePlugin, IPluginConfig<PluginConfig>, IPrimeManager
     {
         if (config.Version < Config.Version)
         {
-            Logger.LogError("Your plugin configuration version is outdated! (v. {old} -> v. {new})", config.Version, Config.Version);
+            Logger.LogWarning("Your plugin configuration version is outdated! (v. {old} -> v. {new}). Updating the configuration...", config.Version, Config.Version);
+            Config.Update();
+            Logger.LogInformation("The configuration has been updated");
+
+            return;
         }
 
         Config = config;
