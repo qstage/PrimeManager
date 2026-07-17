@@ -9,7 +9,8 @@ public class PluginConfig : BasePluginConfig
     {
         ["tag_only_nonprime"] = true,
         ["immunity_flag"] = "@css/generic",
-        ["flag_alert"] = "@css/ban"
+        ["flag_alert"] = "@css/ban",
+        ["alert_only_nonprime"] = false
     };
 
     [JsonPropertyName("ConfigVersion")]
