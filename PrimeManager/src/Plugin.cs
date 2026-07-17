@@ -24,7 +24,7 @@ public struct CEconPersonaDataPublic
 public class Plugin : BasePlugin, IPluginConfig<PluginConfig>, IPrimeManager
 {
     public override string ModuleName => "PrimeManager";
-    public override string ModuleVersion => "1.0.3";
+    public override string ModuleVersion => "1.0.4";
     public override string ModuleAuthor => "xstage";
 
     public event PersonaDataRecived? PersonaDataRecivedEvent;
@@ -81,6 +81,11 @@ public class Plugin : BasePlugin, IPluginConfig<PluginConfig>, IPrimeManager
 
     public bool HasPrime(CCSPlayerController player)
     {
+        if (player == null || !player.IsValid || player.IsBot)
+        {
+            throw new ArgumentNullException(nameof(player), "Player is null, invalid, or a bot.");
+        }
+
         return _players[player.Index].HasPrime;
     }
 
@@ -112,5 +117,15 @@ public class Plugin : BasePlugin, IPluginConfig<PluginConfig>, IPrimeManager
         }
 
         return (T?)Convert.ChangeType(value.ToString(), typeof(T));
+    }
+
+    public int GetPlayerLevel(CCSPlayerController player)
+    {
+        if (player == null || !player.IsValid || player.IsBot)
+        {
+            throw new ArgumentNullException(nameof(player), "Player is null, invalid, or a bot.");
+        }
+
+        return _players[player.Index].PlayerLevel;
     }
 }

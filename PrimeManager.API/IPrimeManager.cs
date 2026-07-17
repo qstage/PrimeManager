@@ -24,7 +24,16 @@ public interface IPrimeManager
     /// </summary>
     /// <param name="player">The player to check for prime status.</param>
     /// <returns><c>true</c> if the player has prime; otherwise, <c>false</c>.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the player is null, invalid, or a bot.</exception>
     bool HasPrime(CCSPlayerController player);
+
+    /// <summary>
+    /// Gets the player public level
+    /// </summary>
+    /// <param name="player">The player whose level is to be returned.</param>
+    /// <returns>The public level of the player.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the player is null, invalid, or a bot.</exception>
+    int GetPlayerLevel(CCSPlayerController player);
 
     /// <summary>
     /// Sends an alert message to the specified player's chat.
