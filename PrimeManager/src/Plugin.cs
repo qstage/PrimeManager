@@ -74,9 +74,9 @@ public class Plugin : BasePlugin, IPluginConfig<PluginConfig>, IPrimeManager
         nint pEconPersonaData = Marshal.ReadIntPtr(inventoryServices.Handle, _nearestFieldOffset - 8);
         if (pEconPersonaData == nint.Zero) return null;
 
-        var econPersonaData = Marshal.PtrToStructure<CSOPersonaDataPublic>(pEconPersonaData + 8);
+        var personaData = Marshal.PtrToStructure<CSOPersonaDataPublic>(pEconPersonaData + 8);
 
-        return econPersonaData;
+        return personaData;
     }
 
     public bool HasPrime(CCSPlayerController player)
