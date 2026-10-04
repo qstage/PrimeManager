@@ -18,13 +18,13 @@ internal class PlayerState
         _controller = player;
     }
 
-    internal void OnClientPutInServer(Action<CCSPlayerController, CEconPersonaDataPublic> PersonaDataRecived)
+    internal void OnClientPutInServer(Action<CCSPlayerController, CSOPersonaDataPublic> PersonaDataRecived)
     {
         var personaDataPublic = Plugin.GetPersonaDataPublic(_controller);
 
         if (personaDataPublic.HasValue)
         {
-            CEconPersonaDataPublic econPersonaData = personaDataPublic.Value;
+            CSOPersonaDataPublic econPersonaData = personaDataPublic.Value;
 
             _primeStatus = econPersonaData.ElevatedState;
             _playerLevel = econPersonaData.PlayerLevel;

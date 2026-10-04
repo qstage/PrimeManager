@@ -11,7 +11,7 @@ using PrimeManager.API;
 namespace PrimeManager;
 
 [StructLayout(LayoutKind.Explicit)]
-public struct CEconPersonaDataPublic
+public struct CSOPersonaDataPublic
 {
     [FieldOffset(0x28)]
     public int PlayerLevel;
@@ -24,7 +24,7 @@ public struct CEconPersonaDataPublic
 public class Plugin : BasePlugin, IPluginConfig<PluginConfig>, IPrimeManager
 {
     public override string ModuleName => "PrimeManager";
-    public override string ModuleVersion => "1.0.4";
+    public override string ModuleVersion => "1.0.5";
     public override string ModuleAuthor => "xstage";
 
     public event PersonaDataRecived? PersonaDataRecivedEvent;
@@ -59,12 +59,12 @@ public class Plugin : BasePlugin, IPluginConfig<PluginConfig>, IPrimeManager
         _players[player.Index] = playerState;
     }
 
-    private void OnPersonaDataRecived(CCSPlayerController player, CEconPersonaDataPublic data)
+    private void OnPersonaDataRecived(CCSPlayerController player, CSOPersonaDataPublic data)
     {
         PersonaDataRecivedEvent?.Invoke(player, data.ElevatedState);
     }
 
-    internal static CEconPersonaDataPublic? GetPersonaDataPublic(CCSPlayerController player)
+    internal static CSOPersonaDataPublic? GetPersonaDataPublic(CCSPlayerController player)
     {
         if (!player.IsValid) return null;
 
@@ -74,7 +74,7 @@ public class Plugin : BasePlugin, IPluginConfig<PluginConfig>, IPrimeManager
         nint pEconPersonaData = Marshal.ReadIntPtr(inventoryServices.Handle, _nearestFieldOffset - 8);
         if (pEconPersonaData == nint.Zero) return null;
 
-        var econPersonaData = Marshal.PtrToStructure<CEconPersonaDataPublic>(pEconPersonaData);
+        var econPersonaData = Marshal.PtrToStructure<CSOPersonaDataPublic>(pEconPersonaData + 8);
 
         return econPersonaData;
     }
